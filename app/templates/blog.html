@@ -1,0 +1,167 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="blog-container">
+    <!-- Левая панель со статьями -->
+    <div class="sidebar">
+        <h3>Статьи о крокодилах</h3>
+        <ul class="articles-list">
+            {% for article in articles %}
+            <li class="{% if article.id == article.id|int %}active{% endif %}">
+                <a href="{{ url_for('blog', article=article.id) }}">{{ article.title }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+        
+        <div class="donate-section">
+            <h4>Поддержите нас!</h4>
+            <p>Мы открыли сбор на помощь африканским крокодилам:</p>
+            <a href="https://yandex.ru/video/preview/12822641309722619845" class="btn btn-green" target="_blank">Помочь</a>
+        </div>
+    </div>
+    
+    <!-- Центральная часть со статьей -->
+    <div class="main-content">
+        <h2>{{ article.title }}</h2>
+        <div class="article-content">
+            {{ article.content|safe }}
+        </div>
+        
+        <!-- Секция комментариев -->
+        <div class="comments-section">
+            <h3>Комментарии</h3>
+            
+            <div class="comments-list">
+                {% for comment in comments %}
+                <div class="comment" id="comment-{{ comment.id }}" data-comment-id="{{ comment.id }}">
+                    <div class="comment-header">
+                        <span class="comment-author">{{ comment.username }}</span>
+                        <span class="comment-date">{{ comment.timestamp }}</span>
+                        <div class="comment-menu">
+                            <span class="menu-dots">⋮</span>
+                            <div class="menu-dropdown">
+                                <button class="copy-link-btn" data-comment-id="{{ comment.id }}">
+                                    Скопировать ссылку
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-content" data-content="{{ comment.content }}">
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <!-- Форма добавления комментария -->
+            <form action="{{ url_for('add_comment') }}" method="POST" class="comment-form">
+                <input type="hidden" name="article_id" value="{{ article.id }}">
+                <textarea name="content" placeholder="Оставьте комментарий..." required></textarea>
+                <button type="submit" class="btn btn-green">Отправить</button>
+            </form>
+        </div>
+        
+        <!-- Бот-чекер для жалоб -->
+        <div class="bot-checker">
+            <h3>Пожаловаться на комментарий</h3>
+            <p>Вставьте ссылку на комментарий, который нарушает правила:</p>
+            <div class="checker-form">
+                <input type="url" id="comment-url" placeholder="URL комментария" required>
+                <button id="check-comment" class="btn btn-green">Проверить</button>
+            </div>
+            <div id="checker-result"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.querySelectorAll('.comment-content').forEach(el => {
+    const content = el.dataset.content;
+    const isBot = document.cookie.includes('flag') || document.body.dataset.username === 'bot';
+    
+    if (isBot) {
+        el.innerHTML = content;
+    } else {
+        el.textContent = content;
+    }
+});
+
+document.querySelectorAll('.copy-link-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        const commentId = this.dataset.commentId;
+        const urlParams = new URLSearchParams(window.location.search);
+        const articleId = urlParams.get('article') || '1';
+        const url = window.location.origin + '/blog?article=' + articleId + '#comment-' + commentId;
+        
+        navigator.clipboard.writeText(url).catch(err => {
+            console.error('Ошибка копирования:', err);
+        });
+    });
+});
+
+document.querySelectorAll('.menu-dots').forEach(dot => {
+    dot.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        document.querySelectorAll('.menu-dropdown.show').forEach(menu => {
+            if (menu !== this.nextElementSibling) {
+                menu.classList.remove('show');
+            }
+        });
+        
+        const menu = this.nextElementSibling;
+        menu.classList.toggle('show');
+    });
+});
+
+document.addEventListener('click', function() {
+    document.querySelectorAll('.menu-dropdown.show').forEach(menu => {
+        menu.classList.remove('show');
+    });
+});
+
+document.getElementById('check-comment').addEventListener('click', function(e) {
+    e.preventDefault();
+    e.stopPropagation();
+    
+    const url = document.getElementById('comment-url').value;
+    const resultDiv = document.getElementById('checker-result');
+    
+    if (!url) {
+        resultDiv.innerHTML = '<div class="error">Введите URL комментария</div>';
+        return;
+    }
+    
+    resultDiv.innerHTML = '<div class="loading">Отправка запроса...</div>';
+    
+    const botUrl = 'http://localhost:5001/check_comment';
+    
+    fetch(botUrl, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+        body: JSON.stringify({url: url})
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.message) {
+            resultDiv.innerHTML = '<div class="success">' + data.message + '</div>';
+        }
+        document.getElementById('comment-url').value = '';
+    })
+    .catch(error => {
+        console.error('Ошибка:', error);
+        resultDiv.innerHTML = '<div class="error">Ошибка при отправке</div>';
+    });
+});
+
+document.getElementById('comment-url').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        e.preventDefault();
+        document.getElementById('check-comment').click();
+    }
+});
+</script>
+{% endblock %}
