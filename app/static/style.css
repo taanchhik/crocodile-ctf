@@ -1,0 +1,376 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: white;
+    color: black;
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Стили для аутентификации */
+.auth-container {
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.auth-container h1 {
+    margin-bottom: 30px;
+    color: #2c3e50;
+}
+
+.auth-form {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.auth-form h2 {
+    margin-bottom: 20px;
+    color: #27ae60;
+}
+
+.form-group {
+    margin-bottom: 15px;
+    text-align: left;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    text-decoration: none;
+}
+
+.btn-green {
+    background-color: #27ae60;
+    color: white;
+}
+
+.btn-green:hover {
+    background-color: #219a52;
+}
+
+.error {
+    color: #e74c3c;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #fdf0ed;
+    border-radius: 4px;
+}
+
+.success {
+    color: #27ae60;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #edfdf0;
+    border-radius: 4px;
+}
+
+.auth-link {
+    margin-top: 20px;
+}
+
+.auth-link a {
+    color: #27ae60;
+    text-decoration: none;
+}
+
+/* Стили для блога */
+.blog-container {
+    display: grid;
+    grid-template-columns: 250px 1fr;
+    gap: 30px;
+    min-height: 600px;
+}
+
+.sidebar {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 8px;
+    height: fit-content;
+}
+
+.sidebar h3 {
+    margin-bottom: 15px;
+    color: #2c3e50;
+}
+
+.articles-list {
+    list-style: none;
+    margin-bottom: 30px;
+}
+
+.articles-list li {
+    margin-bottom: 10px;
+}
+
+.articles-list a {
+    color: #2c3e50;
+    text-decoration: none;
+    padding: 8px;
+    display: block;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.articles-list li.active a {
+    background-color: #27ae60;
+    color: white;
+}
+
+.articles-list a:hover {
+    background-color: #e8f5e9;
+}
+
+.donate-section {
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #ddd;
+}
+
+.donate-section h4 {
+    margin-bottom: 10px;
+    color: #2c3e50;
+}
+
+.donate-section p {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #666;
+}
+
+.main-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.main-content h2 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.article-content {
+    margin-bottom: 30px;
+    line-height: 1.8;
+}
+
+/* Стили для комментариев */
+.comments-section {
+    margin-top: 30px;
+    border-top: 2px solid #27ae60;
+    padding-top: 20px;
+}
+
+.comments-section h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+}
+
+.comments-list {
+    margin-bottom: 20px;
+}
+
+.comment {
+    background-color: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    position: relative;
+}
+
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.comment-author {
+    font-weight: bold;
+    color: #27ae60;
+}
+
+.comment-date {
+    font-size: 12px;
+    color: #666;
+}
+
+.comment-menu {
+    margin-left: auto;
+    position: relative;
+}
+
+.menu-dots {
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0 5px;
+}
+
+.menu-dropdown {
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: white;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    display: none;
+    z-index: 10;
+}
+
+.menu-dropdown.show {
+    display: block;
+}
+
+.copy-link-btn {
+    padding: 8px 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    white-space: nowrap;
+    color: #2c3e50;
+}
+
+.copy-link-btn:hover {
+    background-color: #f0f0f0;
+}
+
+.comment-content {
+    word-wrap: break-word;
+}
+
+.comment-form {
+    margin-top: 20px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    min-height: 80px;
+    resize: vertical;
+}
+
+/* Стили для бот-чекера */
+.bot-checker {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+}
+
+.bot-checker h3 {
+    color: #2c3e50;
+    margin-bottom: 10px;
+}
+
+.checker-form {
+    display: flex;
+    gap: 10px;
+    margin: 15px 0;
+}
+
+.checker-form input {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#checker-result {
+    margin-top: 10px;
+}
+
+/* Адаптивный дизайн */
+@media (max-width: 768px) {
+    .blog-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .checker-form {
+        flex-direction: column;
+    }
+}
+
+/* Стили для шапки */
+.header {
+    background-color: #27ae60;
+    color: white;
+    padding: 15px 0;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.header-content {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    color: white;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info span {
+    font-size: 16px;
+}
+
+.btn-logout {
+    background-color: white;
+    color: #27ae60;
+    padding: 8px 20px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    border: 2px solid white;
+}
+
+.btn-logout:hover {
+    background-color: transparent;
+    color: white;
