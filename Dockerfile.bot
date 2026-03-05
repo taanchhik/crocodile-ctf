@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/playwright/python:v1.40.0-focal
+
+WORKDIR /bot
+
+# Копируем зависимости
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Устанавливаем браузер
+RUN playwright install chromium
+
+# Копируем код бота
+COPY bot/ .
+
+CMD ["python", "bot_checker.py"]

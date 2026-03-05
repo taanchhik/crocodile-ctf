@@ -1,0 +1,39 @@
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    ports:
+      - "5000:5000"
+    environment:
+      - FLAG=${FLAG}
+      - SECRET_KEY=${SECRET_KEY}
+      - BOT_USERNAME=${BOT_USERNAME}
+      - BOT_PASSWORD=${BOT_PASSWORD}
+    volumes:
+      - ./app/data:/app/data
+      - ./app/articles:/app/articles
+    networks:
+      - ctf_network
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    ports:
+      - "5001:5001"
+    environment:
+      - FLAG=${FLAG}
+      - WEB_URL=http://web:5000
+      - BOT_USERNAME=${BOT_USERNAME}
+      - BOT_PASSWORD=${BOT_PASSWORD}
+    volumes:
+      - ./app/data:/app/data
+    networks:
+      - ctf_network
+    depends_on:
+      - web
+
+networks:
+  ctf_network:
+    driver: bridge
