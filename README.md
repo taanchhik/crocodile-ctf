@@ -35,7 +35,7 @@
     ```bash
     pip install -r requirements.txt
 
-3. Откройте приложение Docker Desktop и выоплните следующую команду:
+3. Откройте приложение Docker Desktop и выполните следующую команду:
    ```bash
    docker compose up --build
 
