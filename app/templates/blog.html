@@ -27,6 +27,12 @@
             {{ article.content|safe }}
         </div>
         
+        <div class="article-image">
+            <img src="{{ url_for('static', filename='images/foto_' + article.id|string + '.jpg') }}" 
+                alt="{{ article.title }}"
+                class="article-img">
+        </div>
+
         <!-- Секция комментариев -->
         <div class="comments-section">
             <h3>Комментарии</h3>
